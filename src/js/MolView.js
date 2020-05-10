@@ -75,23 +75,12 @@ var MolView = {
 	/**
 	 * Initializes full MolView UI
 	 */
-	init: function()
-	{
-		//exeption tracking
-		window.onerror = function(message, url, row, column)
-		{
-			ga("send", "exception", {
-				"exDescription": url + " " + row + "," + column + ": " + message,
-				"exFatal": false,
-			});
+	init: function () {
+		window.onerror = function (message, url, row, column) {
+			console.error(url + " " + row + "," + column + ": " + message)
 		};
-
-		$(document).ajaxError(function(e, request, settings)
-		{
-			ga("send", "exception", {
-				"exDescription": "AJAX error: " + settings.type + " " + settings.url + ": " + request.statusText,
-				"exFatal": false
-			});
+		$(document).ajaxError(function (e, request, settings) {
+			console.error("AJAX error: " + settings.type + " " + settings.url + ": " + request.statusText)
 		});
 
 		//setup
@@ -103,8 +92,7 @@ var MolView = {
 		Link.init();
 
 		Model.preloadQuery(this.query);
-		if(this.query.q || this.query.smiles || this.query.cid || this.query.pdbid || this.query.codid)
-		{
+		if (this.query.q || this.query.smiles || this.query.cid || this.query.pdbid || this.query.codid) {
 			this.loadDefault = false;
 		}
 
@@ -114,8 +102,7 @@ var MolView = {
 		Sketcher.init();
 		SearchGrid.init();
 
-		if(this.touch && !Detector.webgl)
-		{
+		if (this.touch && !Detector.webgl) {
 			this.macromolecules = false;
 			Model.JSmol.setQuality(false);
 		}
@@ -125,19 +112,17 @@ var MolView = {
 		$("#main-layer").saveSize();
 
 		//window events
-		$(window).on("resize", function()
-		{
+		$(window).on("resize", function () {
 			$(".dropdown-menu").css("max-height", $("#content").height() - 10);
 
 			//compact menu bar
 			MolView.setMenuLayout($(window).width() < 1100,
-					$(window).width() < 1100 && !MolView.touch,
-					$(window).width() < 390 && MolView.touch);
+				$(window).width() < 1100 && !MolView.touch,
+				$(window).width() < 390 && MolView.touch);
 
 			Progress.resize();
 
-			if(!$("#main-layer").is(":hidden"))
-			{
+			if (!$("#main-layer").is(":hidden")) {
 				$("#main-layer").saveSize();
 				Sketcher.resize();
 				Model.resize();
@@ -145,8 +130,7 @@ var MolView = {
 		});
 
 		//dropdown events
-		$(".dropdown-toggle").on(this.trigger, function(e)
-		{
+		$(".dropdown-toggle").on(this.trigger, function (e) {
 			e.stopPropagation();
 			Autocomplete.hide();
 			$(".dropdown-toggle").not(this).parent().removeClass("open");
@@ -155,82 +139,67 @@ var MolView = {
 				.scrollTop(0);
 		});
 
-		if(!this.touch)
-		{
-			$(".dropdown-toggle").hover(function(e)
-			{
-				if($("#menu").hasClass("menu-open"))
-				{
+		if (!this.touch) {
+			$(".dropdown-toggle").hover(function (e) {
+				if ($("#menu").hasClass("menu-open")) {
 					e.stopPropagation();
 					$(".dropdown").removeClass("open");
 					$(this).parent().addClass("open");
 				}
-			}, function(){});
+			}, function () { });
 		}
 
-		$(".dropdown-menu a").on(this.trigger, function(e)
-		{
-			if($(this).hasClass("disabled"))
-			{
+		$(".dropdown-menu a").on(this.trigger, function (e) {
+			if ($(this).hasClass("disabled")) {
 				e.stopImmediatePropagation();
 			}
-			else
-			{
+			else {
 				$(".dropdown-toggle").not(this).parent().removeClass("open");
 				$("#menu").removeClass("menu-open");
 			}
 		});
 
-		$(window).on(this.trigger, function(e)
-		{
+		$(window).on(this.trigger, function (e) {
 			var container = $(".dropdown.open .dropdown-menu");
 			var searchInput = $("#search-input");
 
-			if(!container.is(e.target) && container.has(e.target).length === 0)
-			{
+			if (!container.is(e.target) && container.has(e.target).length === 0) {
 				e.stopPropagation();
 				$("#menu").removeClass("menu-open");
 				$(".dropdown").removeClass("open");
 			}
 
-			if(!searchInput.is(e.target) && searchInput.has(e.target).length === 0
+			if (!searchInput.is(e.target) && searchInput.has(e.target).length === 0
 				&& document.activeElement.id === "search-input")
 				$("#search-input").blur();
 		});
 
 		//window events
-		$("#dialog-click-area").on("mousedown", function(e)
-		{
+		$("#dialog-click-area").on("mousedown", function (e) {
 			var target = e.target || e.srcElement;
-			if(window.getSelection().type !== "Range" && !$(document.activeElement).is("input"))
-			{
-				if($(target).is(this) || $(target).is("#dialog-wrapper"))
-				{
+			if (window.getSelection().type !== "Range" && !$(document.activeElement).is("input")) {
+				if ($(target).is(this) || $(target).is("#dialog-wrapper")) {
 					MolView.hideDialogs();
 					window.getSelection().removeAllRanges();
 				}
 			}
 		});
 
-		$(".dialog .btn.close, .dialog-close-btn").on(this.trigger, function(e)
-		{
+		$(".dialog .btn.close, .dialog-close-btn").on(this.trigger, function (e) {
 			MolView.hideDialogs();
 		});
 
-		$(".layer .btn.close").on(this.trigger, function(e)
-		{
+		$(".layer .btn.close").on(this.trigger, function (e) {
 			MolView.setLayer("main");
 		});
 
 		//enable expandable expanding
-		$(".expandable-title").on(this.trigger, function(e)
-		{
+		$(".expandable-title").on(this.trigger, function (e) {
 			$(this).parent().toggleClass("open");
 		});
 
 		//do not track checkbox
-		$("#allow-tracking").on("change", function()
-		{
+		$("#allow-tracking").on("change", function () {
 			Preferences.set("molview", "allow_tracking", this.checked);
 		});
 
@@ -350,23 +319,19 @@ var MolView = {
 		$("#welcome-button-bar").show();
 
 		//custom event trackers
-		$("#model-source").on(this.trigger, function()
-		{
+		$("#model-source").on(this.trigger, function () {
 			MolView.pushEvent("link", "click", "model source", 0);
 		});
-		$("#spectrum-nist-source").on(this.trigger, function()
-		{
+		$("#spectrum-nist-source").on(this.trigger, function () {
 			MolView.pushEvent("link", "click", "spectrum nist source", 0);
 		});
 
-		Model.init(function()
-		{
+		Model.init(function () {
 			//execute query commands
 			MolView.executeQuery();
 			Sketcher.markUpdated();
 
-			if(!Request.CIR.available)
-			{
+			if (!Request.CIR.available) {
 				Messages.alert("cir_down");
 			}
 		}, "GLmol");
@@ -380,19 +345,17 @@ var MolView = {
 	 * @param {String}  category Event tracking category (button|menu)
 	 * @param {Boolean} track    Indicates if action should be tracked using GA
 	 */
-	addAction: function(id, category, track)
-	{
-		$("#action-" + id.replace(/_/g, "-")).on(this.trigger, function(e)
-		{
-			if($(this).hasClass("disabled") || $(this).hasClass("tool-button-disabled")) return;
+	addAction: function (id, category, track) {
+		$("#action-" + id.replace(/_/g, "-")).on(this.trigger, function (e) {
+			if ($(this).hasClass("disabled") ||
+				$(this).hasClass("tool-button-disabled")) {
+				return;
+			}
 
-			if(track && Preferences.get("molview", "allow_tracking", false))
-			{
+			if (track && Preferences.get("molview", "allow_tracking", false)) {
 				MolView.pushEvent(category, "click",
 					id.replace(/_/g, " "), Actions[id].call(this) || 0);
-			}
-			else
-			{
+			} else {
 				Actions[id].call(this);
 			}
 		});
@@ -401,48 +364,38 @@ var MolView = {
 	/**
 	 * Wrapper for analytics.js
 	 */
-	pushEvent: function(category, action, label, number)
-	{
-		ga("send", "event", category, action, label, number);
+	pushEvent: function (category, action, label, number) {
+		// MolView Legacy Lite does not track events.
+		console.log(category, action, label, number)
 	},
 
 	/**
 	 * Executes URL query
 	 */
-	executeQuery: function()
-	{
-		$.each(this.query, function(key, value)
-		{
-			if(key === "q")
-			{
+	executeQuery: function () {
+		$.each(this.query, function (key, value) {
+			if (key === "q") {
 				$("#search-input").val(value);
 				Messages.process(Loader.CIRsearch, "search");
 			}
-			else if(key === "smiles")
-			{
-				Messages.process(function()
-				{
+			else if (key === "smiles") {
+				Messages.process(function () {
 					Loader.loadSMILES(value, document.title);
 				}, "compound");
 			}
-			else if(key === "cid")
-			{
+			else if (key === "cid") {
 				Loader.PubChem.loadCID(value, document.title);
 			}
-			else if(key === "pdbid")
-			{
+			else if (key === "pdbid") {
 				Loader.RCSB.loadPDBID(value, value.toUpperCase());
 			}
-			else if(key === "codid")
-			{
+			else if (key === "codid") {
 				Loader.COD.loadCODID(value, document.title);
 			}
-			else if(key === "dialog")
-			{
+			else if (key === "dialog") {
 				MolView.showDialog(value);
 			}
-			else if(key === "bg")
-			{
+			else if (key === "bg") {
 				Model.setBackground(value);
 			}
 		});
@@ -452,8 +405,7 @@ var MolView = {
 	 * Shows dialog with id #$name-dialog
 	 * @param {String} name Dialog name
 	 */
-	showDialog: function(name)
-	{
+	showDialog: function (name) {
 		$("#dialog-overlay .dialog").hide();
 		$("#dialog-overlay").show();
 		$("#dialog-overlay").scrollTop(0);
@@ -463,8 +415,7 @@ var MolView = {
 	/**
 	 * Hides all dialogs
 	 */
-	hideDialogs: function()
-	{
+	hideDialogs: function () {
 		$("#dialog-overlay .dialog").hide();
 		$("#dialog-overlay").hide();
 	},
@@ -474,13 +425,11 @@ var MolView = {
 	 * @param {String}  name        Layer name
 	 * @param {Boolean} forceResize Force Sketcher and Model resize
 	 */
-	setLayer: function(name, forceResize)
-	{
+	setLayer: function (name, forceResize) {
 		$(".layer").hide();
 		$("#" + name + "-layer").show();
 
-		if(name === "main" && ($("#main-layer").sizeChanged() || forceResize))
-		{
+		if (name === "main" && ($("#main-layer").sizeChanged() || forceResize)) {
 			$("#main-layer").saveSize();
 			Sketcher.resize();
 			Model.resize();
@@ -491,8 +440,7 @@ var MolView = {
 	 * Sets main-layer layout by applying the $layout CSS class
 	 * @param {String} layout Layout name and CSS class
 	 */
-	setLayout: function(layout)
-	{
+	setLayout: function (layout) {
 		$("#layout-menu > a").removeClass("selected");
 		$("#action-layout-" + layout).addClass("selected");
 		$("#main-layer").removeClass("layout-sketcher layout-model layout-vsplit layout-hsplit").addClass("layout-" + layout);
@@ -506,14 +454,13 @@ var MolView = {
 	 * @param {Boolean} collapse  Collapse search-input and brand
 	 * @param {Boolean} fitSearch Fit #search in screen width
 	 */
-	setMenuLayout: function(compact, collapse, fitSearch)
-	{
+	setMenuLayout: function (compact, collapse, fitSearch) {
 		$("#search").css("margin", collapse ? 0 : "");
 		$("#search-input").css("width", collapse ? 100 : (fitSearch ? $(window).width() - 90 : ""));
 		$("#brand").toggle(!collapse);
 		$("#search-dropdown .dropdown-menu").toggleClass("dropdown-left",
-				$(window).width() >= $("#search-dropdown .dropdown-menu").outerWidth() && !collapse)
-				.toggleClass("dropdown-compact", compact);
+			$(window).width() >= $("#search-dropdown .dropdown-menu").outerWidth() && !collapse)
+			.toggleClass("dropdown-compact", compact);
 		$("#jmol-dropdown .dropdown-menu, #protein-dropdown .dropdown-menu").toggleClass("dropdown-left", compact);
 	},
 
@@ -522,8 +469,7 @@ var MolView = {
 	 * build/molview-$theme.min.css
 	 * @param {String} theme Theme name
 	 */
-	setTheme: function(theme)
-	{
+	setTheme: function (theme) {
 		Preferences.set("molview", "theme", theme);
 
 		$("#action-theme-desktop, #action-theme-touch").removeClass("checked");
@@ -534,29 +480,24 @@ var MolView = {
 	/**
 	 * Makes sure the Model view is visible
 	 */
-	makeModelVisible: function()
-	{
-		if(this.layout === "sketcher")
+	makeModelVisible: function () {
+		if (this.layout === "sketcher")
 			MolView.setLayout("both");
 	},
 
 	/**
 	 * Applies alert effect to #search-input to notify the user that it's empty
 	 */
-	alertEmptyInput: function()
-	{
-		if(MolView.search_input_timeout !== null)
-		{
+	alertEmptyInput: function () {
+		if (MolView.search_input_timeout !== null) {
 			window.clearTimeout(MolView.search_input_timeout);
 		}
 
-		window.setTimeout(function()
-		{
+		window.setTimeout(function () {
 			$("#search-input").addClass("alert").focus();
 		}, 0);
 
-		MolView.search_input_timeout = window.setTimeout(function()
-		{
+		MolView.search_input_timeout = window.setTimeout(function () {
 			$("#search-input").removeClass("alert");
 		}, 1000);
 	},
@@ -564,7 +505,6 @@ var MolView = {
 	search_input_timeout: null//use for MolView.alertEmptyInput
 };
 
-$(window).on("load", function()
-{
+$(window).on("load", function () {
 	MolView.init();
 });

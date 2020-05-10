@@ -93,13 +93,6 @@ var JSUnits = {
 			'src/js/Autocomplete.js',
 			'src/js/MolView.js'
 		]
-	},
-	embed:
-	{
-		src: [
-			'src/js/Loader.Embed.js',
-			'src/js/MolView.Embed.js'
-		]
 	}
 }
 
@@ -113,7 +106,7 @@ module.exports = function (grunt) {
 			{
 				options:
 				{
-					banner: '/*! MolView JavaScript Base libraries build on <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+					banner: '/*! MolView JavaScript Base, built on <%= grunt.template.today("yyyy-mm-dd") %> */\n',
 					compress: { drop_console: true }
 				},
 				src: JSUnits.base.src,
@@ -123,7 +116,7 @@ module.exports = function (grunt) {
 			{
 				options:
 				{
-					banner: '/*! MolView JavaScript App libraries build on <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+					banner: '/*! MolView JavaScript App, built on <%= grunt.template.today("yyyy-mm-dd") %> */\n',
 					compress: { drop_console: true }
 				},
 				src: JSUnits.applib.src,
@@ -133,7 +126,7 @@ module.exports = function (grunt) {
 			{
 				options:
 				{
-					banner: '/*! MolView JavaScript Datasets build on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+					banner: '/*! MolView JavaScript Datasets, built on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
 				},
 				src: JSUnits.datasets.src,
 				dest: 'build/molview-datasets.min.js'
@@ -142,7 +135,7 @@ module.exports = function (grunt) {
 			{
 				options:
 				{
-					banner: '/*! MolView JavaScript Core build on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+					banner: '/*! MolView JavaScript Core, built on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
 				},
 				src: JSUnits.core.src,
 				dest: 'build/molview-core.min.js'
@@ -151,7 +144,7 @@ module.exports = function (grunt) {
 			{
 				options:
 				{
-					banner: '/*! MolView JavaScript Sketcher build on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+					banner: '/*! MolView JavaScript Sketcher, built on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
 				},
 				src: JSUnits.molpad.src,
 				dest: 'build/molview-molpad.min.js'
@@ -160,19 +153,10 @@ module.exports = function (grunt) {
 			{
 				options:
 				{
-					banner: '/*! MolView JavaScript App build on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+					banner: '/*! MolView JavaScript App, built on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
 				},
 				src: JSUnits.app.src,
 				dest: 'build/molview-app.min.js'
-			},
-			embed:
-			{
-				options:
-				{
-					banner: '/*! MolView JavaScript Embed build on <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-				},
-				src: JSUnits.embed.src,
-				dest: 'build/molview-embed.min.js'
 			}
 		},
 		replace:
@@ -213,21 +197,6 @@ module.exports = function (grunt) {
 					'src/less/welcome.less'
 				],
 				dest: 'build/molview-app.min.css'
-			},
-			embed:
-			{
-				options:
-				{
-					compress: true,
-					cleancss: true
-				},
-				src: [
-					'src/less/var.less',
-					'src/less/model.less',
-					'src/less/messages.less',
-					'src/less/embed.less'
-				],
-				dest: 'build/molview-embed.min.css'
 			},
 			desktop:
 			{
@@ -280,11 +249,6 @@ module.exports = function (grunt) {
 				src: 'build/molview-app.min.css',
 				dest: 'build/molview-app.min.css'
 			},
-			embed:
-			{
-				src: 'build/molview-embed.min.css',
-				dest: 'build/molview-embed.min.css'
-			},
 			desktop:
 			{
 				src: 'build/molview-desktop.min.css',
@@ -334,7 +298,6 @@ module.exports = function (grunt) {
 			img:
 			{
 				files: [
-					{ expand: true, flatten: true, src: 'docs/img/*', dest: 'img/help/', filter: 'isFile' },
 					{ src: 'src/svg/icon/agpl.svg', dest: 'img/agpl.svg' },
 					{ src: 'src/svg/icon/48.svg', dest: 'img/logo.svg' },
 					{ src: 'src/svg/icon/brand.svg', dest: 'img/brand.svg' }
@@ -353,7 +316,6 @@ module.exports = function (grunt) {
 			core: { files: JSUnits.core.src, tasks: ['uglify:core'] },
 			molpad: { files: JSUnits.molpad.src, tasks: ['uglify:molpad'] },
 			app: { files: JSUnits.app.src, tasks: ['uglify:app'] },
-			embed: { files: JSUnits.embed.src, tasks: ['uglify:embed'] },
 		}
 	});
 

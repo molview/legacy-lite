@@ -1,3 +1,8 @@
+// MolView Legacy Lite does not support downloading COD CIFs.
+var MineralNames = {
+	"records": []
+}
+/*
 var MineralNames = {
 	"records": [
 		{ "name": "Abenakiite-(Ce)", "codid": "9004336" },
@@ -3932,3 +3937,4 @@ var MineralNames = {
 		{ "name": "Zwieselite", "codid": "9009539" }
 	]
 }
+*/

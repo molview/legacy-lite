@@ -29,6 +29,26 @@ license or agreement.
 
 ---
 
+## Ketcher
+```
+Ketcher is Copyright (C) of GGA Software Services LLC 2009-2010.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, version 3 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
+```
+See: https://github.com/ggasoftware/ketcher
+
+---
+
 ## ChemDoodleWeb
 ```
 ChemDoodle Web Components 6.0.1
@@ -61,15 +81,6 @@ See: http://web.chemdoodle.com/
 
 ---
 
-## FileSaver.js
-```
-Copyright (c) 2014 [Eli Grey](http://eligrey.com)
-MIT License
-```
-See: https://github.com/eligrey/FileSaver.js
-
----
-
 ## GLmol
 ```
 GLmol - Molecular Viewer on WebGL/Javascript (0.47)
@@ -85,6 +96,15 @@ See: https://github.com/biochem-fan/GLmol
 Jmol is offered under the LGPL License (GNU Lesser General Public License)
 ```
 See: http://wiki.jmol.org/index.php/License
+
+---
+
+## Three.js
+```
+The MIT License
+Copyright (c) 2010-2014 three.js authors
+```
+See: https://github.com/mrdoob/three.js
 
 ---
 
@@ -114,63 +134,14 @@ See: https://github.com/jeresig/jquery.hotkeys
 
 ---
 
-## Ketcher
+## FileSaver.js
 ```
-Ketcher is Copyright (C) of GGA Software Services LLC 2009-2010.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, version 3 of the License.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+Copyright (c) 2014 [Eli Grey](http://eligrey.com)
+MIT License
 ```
-See: https://github.com/ggasoftware/ketcher
-
----
-
-## MobileDetect
-```
-Code and contributions have 'MIT License'
-More details: https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
-```
-See: https://github.com/serbanghita/Mobile-Detect/
-
----
-
-## Parsedown
-```
-The MIT License (MIT)
-Copyright (c) 2013 Emanuil Rusev, erusev.com
-```
-See: https://github.com/erusev/parsedown
+See: https://github.com/eligrey/FileSaver.js
 
 ---
 
 ## PeriodicTable
 See: https://github.com/diniska/chemistry/blob/master/PeriodicalTable/periodicTable.json
-
----
-
-## Three.js
-```
-The MIT License
-Copyright (c) 2010-2014 three.js authors
-```
-See: https://github.com/mrdoob/three.js
-
----
-
-Full licenses
-=============
-- **MIT**: see [licenses/mit.txt](licenses/mit.txt)
-- **GPL2**: see [licenses/gpl.txt](licenses/gpl-2.0.txt)
-- **GPL3**: see [licenses/gpl.txt](licenses/gpl.txt)
-- **AGPL3**: see [licenses/agpl.txt](licenses/agpl.txt)
-- **LGPL3**: see [licenses/lgpl.txt](licenses/lgpl.txt)
-- **Apache License 2.0**: see [licenses/apache-license-2.0.txt](licenses/apache-license-2.0.txt)
