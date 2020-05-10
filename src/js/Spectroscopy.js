@@ -28,24 +28,24 @@ var Spectroscopy = {
 	/**
 	 * Initializes Spectoscopy DOM
 	 */
-	init: function()
-	{
-		$(window).on("resize", function()
-		{
-			if($("#spectra-layer").is(":visible"))
-			{
+	init: function () {
+		if (typeof ChemDoodle == 'undefined') {
+			return
+		}
+
+		$(window).on("resize", function () {
+			if ($("#spectra-layer").is(":visible")) {
 				Spectroscopy.resize();
 			}
 		});
 
-		$("#spectrum-select").on("change", function()
-		{
+		$("#spectrum-select").on("change", function () {
 			Spectroscopy.load($("#spectrum-select").val());
 		});
 
-		if(MolView.mobile) {
+		if (MolView.mobile) {
 			//enable mobile scrolling
-			$("#spectrum-wrapper").on("touchmove", function(e) {
+			$("#spectrum-wrapper").on("touchmove", function (e) {
 				e.stopImmediatePropagation();
 			});
 
@@ -53,7 +53,7 @@ var Spectroscopy = {
 			this.spectrum = new ChemDoodle.ObserverCanvas("spectrum-canvas", 100, 100);
 		} else {
 			this.spectrum = new ChemDoodle.SeekerCanvas("spectrum-canvas", 100, 100,
-													ChemDoodle.SeekerCanvas.SEEK_PLOT);
+				ChemDoodle.SeekerCanvas.SEEK_PLOT);
 		}
 
 		this.spectrum.specs.plots_showYAxis = true;
@@ -67,8 +67,7 @@ var Spectroscopy = {
 	 * Resets Spectroscopy dialog and updates spectra dropdown using SMILES
 	 * @param {String} smiles SMILES string
 	 */
-	update: function(smiles)
-	{
+	update: function (smiles) {
 		this.data = {};
 		InfoCard.update(smiles);
 
@@ -80,29 +79,26 @@ var Spectroscopy = {
 		this.print("No spectrum selected");
 
 		//update available spectra
-		function noSpectra()
-		{
+		function noSpectra() {
 			$("#spectrum-select").empty();
 			$("#spectrum-select").append('<option value="default" disabled selected style="display:none;">There are no spectra available</option>');
 			//$("#spectrum-select").append('<option value="nmrdb">H1-NMR prediction</option>');
 			$("#spectrum").removeClass("loading");
 		}
 
-		InfoCard.getProperty("cas", function(cas)
-		{
+		InfoCard.getProperty("cas", function (cas) {
 			Spectroscopy.data["cas"] = cas;
-			Request.NIST.lookup(Spectroscopy.data["cas"], function(data)
-			{
+			Request.NIST.lookup(Spectroscopy.data["cas"], function (data) {
 				$("#spectrum-select").empty();
 				$("#spectrum-select").append('<option value="default" disabled selected style="display:none;">Choose a spectrum</option>');
 
-				if(data.mass) {
+				if (data.mass) {
 					$("#spectrum-select").append('<option value="nist-mass">Mass spectrum</option>');
 				}
 				//if(data.uvvis) $("#spectrum-select").append('<option value="nist-uvvis">UV-Visible spectrum</option>');
 
-				if(data.ir !== undefined) {
-					for(var i = 0; i < data.ir.length; i++) {
+				if (data.ir !== undefined) {
+					for (var i = 0; i < data.ir.length; i++) {
 						$("#spectrum-select").append('<option value="nist-ir-'
 							+ data.ir[i].i + '">IR spectrum [' + data.ir[i].state + ']</option>');
 					}
@@ -110,10 +106,10 @@ var Spectroscopy = {
 
 				//$("#spectrum-select").append('<option value="nmrdb">H1-NMR prediction</option>').val("default");
 
-				if(data.mass || (data.ir !== undefined && data.ir.length > 0)) {
+				if (data.mass || (data.ir !== undefined && data.ir.length > 0)) {
 					$("#spectrum").removeClass("loading");
 					$("#spectrum-nist-source").attr("href", data.url).show();
-				}	else {
+				} else {
 					noSpectra();
 				}
 			}, noSpectra);
@@ -130,13 +126,11 @@ var Spectroscopy = {
 	 *
 	 * @param  {String} type Spectrum type
 	 */
-	load: function(type)
-	{
+	load: function (type) {
 		this.print("Loading\u2026");
 		$("#spectrum").addClass("loading");
 
-		function displayNMRDB()
-		{
+		function displayNMRDB() {
 			var spectrum = ChemDoodle.readJCAMP(Spectroscopy.data.nmrdb);
 			spectrum.title = ucfirst(humanize(spectrum.title));
 			spectrum.yUnit = ucfirst(humanize(spectrum.yUnit));
@@ -145,8 +139,7 @@ var Spectroscopy = {
 			$("#spectrum").removeClass("loading");
 		}
 
-		function displayNISTSpectrum()
-		{
+		function displayNISTSpectrum() {
 			/*
 			For UV-Vis support (using js/lib/jcamp-dx.js from NIST)
 			var spectrum = new jdx_parse();
@@ -157,41 +150,32 @@ var Spectroscopy = {
 			spectrum.title = ucfirst(humanize(spectrum.title));
 			spectrum.yUnit = ucfirst(humanize(spectrum.yUnit));
 
-			if(type === "nist-mass") Spectroscopy.spectrum.specs.plots_flipXAxis = false;
+			if (type === "nist-mass") Spectroscopy.spectrum.specs.plots_flipXAxis = false;
 			else Spectroscopy.spectrum.specs.plots_flipXAxis = true;
 
 			Spectroscopy.spectrum.loadSpectrum(spectrum);
 			$("#spectrum").removeClass("loading");
 		}
 
-		if(type === "nmrdb")
-		{
-			if(!this.data["nmrdb"])
-			{
-				InfoCard.getProperty("smiles", function(smiles)
-				{
-					Request.NMRdb.prediction(smiles, function(jcamp)
-					{
+		if (type === "nmrdb") {
+			if (!this.data["nmrdb"]) {
+				InfoCard.getProperty("smiles", function (smiles) {
+					Request.NMRdb.prediction(smiles, function (jcamp) {
 						Spectroscopy.data.nmrdb = jcamp;
 						displayNMRDB();
-					}, function()
-					{
+					}, function () {
 						Spectroscopy.print("Spectrum unavailable");
 					});
 				});
 			}
 			else displayNMRDB();
 		}
-		else if(type.indexOf("nist" !== -1))
-		{
-			if(!Spectroscopy.data[type])
-			{
-				Request.NIST.spectrum(this.data["cas"], type.substr(5), function(jcamp)
-				{
+		else if (type.indexOf("nist" !== -1)) {
+			if (!Spectroscopy.data[type]) {
+				Request.NIST.spectrum(this.data["cas"], type.substr(5), function (jcamp) {
 					Spectroscopy.data[type] = jcamp;
 					displayNISTSpectrum();
-				}, function()
-				{
+				}, function () {
 					Spectroscopy.print("Spectrum unavailable");
 				});
 			}
@@ -199,14 +183,12 @@ var Spectroscopy = {
 		}
 	},
 
-	print: function(str)
-	{
+	print: function (str) {
 		Spectroscopy.spectrum.emptyMessage = str;
 		Spectroscopy.spectrum.loadSpectrum(null);
 	},
 
-	resize: function()
-	{
+	resize: function () {
 		var w = $("#spectrum-wrapper").width();
 		var h = Math.round(w / Spectroscopy.spectrumRatio);
 		Spectroscopy.spectrum.resize(w * MolView.devicePixelRatio, h * MolView.devicePixelRatio);

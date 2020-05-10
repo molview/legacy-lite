@@ -49,38 +49,6 @@ See: https://github.com/ggasoftware/ketcher
 
 ---
 
-## ChemDoodleWeb
-```
-ChemDoodle Web Components 6.0.1
-
-http://web.chemdoodle.com
-
-Copyright 2009-2014 iChemLabs, LLC.  All rights reserved.
-
-The ChemDoodle Web Components library is licensed under version 3
-of the GNU GENERAL PUBLIC LICENSE.
-
-You may redistribute it and/or modify it under the terms of the
-GNU General Public License as published by the Free Software Foundation,
-either version 3 of the License, or (at your option) any later version.
-
-As an exception to the GPL, you may distribute this packed form of
-the code without the copy of the GPL license normally required,
-provided you include this license notice and a URL through which
-recipients can access the corresponding unpacked source code.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-Please contact iChemLabs <http://www.ichemlabs.com/contact-us> for
-alternate licensing options.
-```
-See: http://web.chemdoodle.com/
-
----
-
 ## GLmol
 ```
 GLmol - Molecular Viewer on WebGL/Javascript (0.47)

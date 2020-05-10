@@ -7,8 +7,7 @@ var JSUnits = {
 			'src/js/lib/JSmol.min.js',
 			'src/js/lib/Detector.js',
 			'src/js/lib/three.min.js',
-			'src/js/lib/GLmol.js',
-			'src/js/lib/ChemDoodleWeb.js'
+			'src/js/lib/GLmol.js'
 		]
 	},
 	applib:

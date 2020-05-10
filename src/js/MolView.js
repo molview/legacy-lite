@@ -92,7 +92,8 @@ var MolView = {
 		Link.init();
 
 		Model.preloadQuery(this.query);
-		if (this.query.q || this.query.smiles || this.query.cid || this.query.pdbid || this.query.codid) {
+		//if (this.query.q || this.query.smiles || this.query.cid || this.query.pdbid || this.query.codid) {
+		if (this.query.q || this.query.smiles || this.query.cid || this.query.pdbid) {
 			this.loadDefault = false;
 		}
 
@@ -389,9 +390,9 @@ var MolView = {
 			else if (key === "pdbid") {
 				Loader.RCSB.loadPDBID(value, value.toUpperCase());
 			}
-			else if (key === "codid") {
+			/*else if (key === "codid") {
 				Loader.COD.loadCODID(value, document.title);
-			}
+			}*/
 			else if (key === "dialog") {
 				MolView.showDialog(value);
 			}
