@@ -393,9 +393,6 @@ var MolView = {
 			/*else if (key === "codid") {
 				Loader.COD.loadCODID(value, document.title);
 			}*/
-			else if (key === "dialog") {
-				MolView.showDialog(value);
-			}
 			else if (key === "bg") {
 				Model.setBackground(value);
 			}
